@@ -13,7 +13,7 @@ It also provides additional helpful methods, like `run_all`, which may be used f
 """
 setup(name='invokebilizer',
       version=__version__,
-      url='https://github.com/mirasrael/pyinokebilizer',
+      url='https://github.com/mirasrael/pyinvokebilizer',
       license='MIT',
       author='Alexander Bondarev',
       author_email='alexander.i.bondarev@gmail.com',
