@@ -25,7 +25,7 @@ setup(name='invokebilizer',
       ],
       platforms='any',
       install_requires=[
-          'invoke>=0.10,<0.14',
+          'invoke>=0.10,<0.16',
           'six'
       ],
       tests_require=[
