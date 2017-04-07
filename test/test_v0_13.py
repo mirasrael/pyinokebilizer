@@ -8,11 +8,11 @@ import subprocess
 class TestV013Api(unittest.TestCase):
     @staticmethod
     def run_task(*args):
-        process = subprocess.Popen(["bash", "-c",
-                                    "cd {folder}; invoke {args}"
-                                   .format(folder=os.path.join('fixtures', 'v0.13'),
-                                           args=' '.join(args))],
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        fixtures_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
+        process = subprocess.Popen(["invoke"] + list(args),
+                                   stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   cwd=os.path.join(fixtures_dir, 'v0.13'))
         stdout, stderr = process.communicate()
         return process.returncode, stdout, stderr
 
@@ -32,3 +32,11 @@ class TestV013Api(unittest.TestCase):
         self.assertEqual(rc, 0, msg=stderr)
         self.assertIn(b'Hello world', stdout)
         self.assertIn(b'Goodbye', stdout)
+
+    def test_it_reports_nested_failure(self):
+        rc, stdout, stderr = self.run_task('say_hello_and_fail')
+        self.assertNotEqual(rc, 0, msg="Command should fail")
+        self.assertIn(b'Hello world', stdout)
+        self.assertIn(b'FAILED TASKS: fail_a, fail_b', stdout)
+        self.assertIn(b'FAILED TASKS: fail (fail_a, fail_b)', stdout)
+

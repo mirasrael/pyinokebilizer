@@ -29,7 +29,7 @@ setup(name='invokebilizer',
           'six'
       ],
       tests_require=[
-          'nose',
+          'pytest',
           'tox',
       ],
       classifiers=[

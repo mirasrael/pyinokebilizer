@@ -37,8 +37,10 @@ def run_all(ctx, *tasks):
     if result.failed:
         def format_task(t):
             name = t[0].name
-            _sub_tasks = map(format_task, t[1].failed_tasks) if isinstance(t[1], TaskListResult) else None
-            return "%s (%s)" % (name, ', '.join(_sub_tasks)) if _sub_tasks else name
+            _failed_tasks = t[1].failed_tasks if isinstance(t[1], TaskListResult) else None
+            if not _failed_tasks:
+                return name
+            return "%s (%s)" % (name, ', '.join(map(format_task, _failed_tasks)))
 
         print('FAILED TASKS: %s' % (', '.join(map(format_task, result.failed_tasks))))
         raise Failure(result)

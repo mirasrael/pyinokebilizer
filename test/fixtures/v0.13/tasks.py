@@ -19,3 +19,23 @@ def greeting(ctx):
 @task
 def say_hello_and_say_goodbye(ctx):
     run_all(ctx, say_hello, say_goodbye)
+
+
+@task
+def fail_a(ctx):
+    ctx.run("false")
+
+
+@task
+def fail_b(ctx):
+    ctx.run("false")
+
+
+@task
+def fail(ctx):
+    run_all(ctx, fail_a, fail_b)
+
+
+@task
+def say_hello_and_fail(ctx):
+    run_all(ctx, say_hello, fail)
